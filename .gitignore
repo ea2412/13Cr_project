@@ -1,2 +1,7 @@
 *.pdf
 .vscode
+*.bmp
+*.txt
+.DS_Store
+*.itp
+*.its
