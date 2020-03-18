@@ -11,6 +11,10 @@ pylint = "*"
 matplotlib = "*"
 numpy = "*"
 pandas = "*"
+os = "*"
+string = "*"
+pillow = "*"
+math = "*"
 
 [requires]
 python_version = "3.8"
