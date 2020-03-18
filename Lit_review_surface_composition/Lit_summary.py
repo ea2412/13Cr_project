@@ -50,7 +50,7 @@ surface_elemental_composition = [
 fig = plt.figure()
 ax1 = fig.add_subplot()
 ax1.set_ylabel("Temperature ($^o$C)")
-ax1.set_title("Composition (at. %)")
+ax1.set_title("Atomic percentage of chromium (at. %)")
 
 
 ax1.scatter(
