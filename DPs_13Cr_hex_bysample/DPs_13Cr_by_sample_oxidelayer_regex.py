@@ -15,54 +15,19 @@ import sys
 sys.path.append(os.path.abspath(os.path.join(__file__, os.path.pardir, os.path.pardir)))
 from test_list import mass_list
 
-# mass_list = ["CO_3-", "OH-", "CO_2-", "O_3-", "O_2H-", "O-", "CrO-", "MnO-"]
-# Fe(?![a-z]).*H(?![a-z]).*O(?![a-z])
-
-# Fe(?![a-z]).*H(?![a-z]).*O
-# S(?![a-z])
-
-# new_list = [if re.match(r"C(?![a-z]).*H(?![a-z])(?!.*O)" in mass_list .append
-
-# line_colors = [
-#             pca_loadings_colors_rgb[0]
-#             if "Fe" in labels[i]
-#             else pca_loadings_colors_rgb[1]
-#             if re.match(r"C(?![a-z]).*H(?![a-z])(?!.*O)", labels[i])
-#             else pca_loadings_colors_rgb[2]
-#             if re.match(r"C(?![a-z]).*H(?![a-z]).*O", labels[i])
-#             else pca_loadings_colors_rgb[3]
-#             for i in range(len(loadings_masses))
-#         ]
-
-new_mass_list = [
-    new_mass_list.append(ion) 
-    if (re.match(r".*Fe(?![a-z]).*H(?![a-z]).*O)", ion) 
-    for ion in mass_list
-    ]
-
- 
-
-
+new_mass_list = []
 for ion in mass_list:
-    if ion 
-# matches = re.match(r"Fe(?![a-z]).*H(?![a-z]).*O)", ion)
-# print(matches)
-# new_mass_list = []
-# for i, match in enumerate(matches):
-#     new_mass_list.append(match)
+    if re.match(r"(?=.*Fe(?![a-z]))(?=.*H(?![a-z]))(?=.*O(?![a-z]))", ion):
+        new_mass_list.append(ion)
 
-# faces_txt = re.findall(r'#(\d+) = ADVANCED_FACE.*;', text)
-# faces = [int(face) for face in faces_txt]
-# LoL = []
-# for i, faceId in enumerate(faces):
-#     LoL.append([faceId])
+new_mass_list.remove("CH_2OFe_3-.1")
 
 
 file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "300_u_t_O_zoom.pdf"
+output_file_name = "300_u_t_FE+O+H_zoom.pdf"
 
 
 class Files:
@@ -135,8 +100,8 @@ y_range = [0, 1.1]
 
 number_of_plots = len(DP_file_name)
 
-fig_width = 3.5
-mass_spectra_ar = 6 / 2
+fig_width = 7
+mass_spectra_ar = 7 / 4
 padding = [[0.7, 0.3], [0.5, 0.3]]  # padding = [[left, right], [bottom, top]]
 horizontal_gap = 0.1
 vertical_gap = 0.1
@@ -191,7 +156,7 @@ for file_name in DP_file_name:
 
 for l, data in enumerate(panda_list):
     ax = axs[l]
-    for species in mass_list:
+    for species in new_mass_list:
         x_values = data[data.columns[0]][3:].values
         y_values = data[species][3:].values
         max_y_value = y_values.max()
@@ -204,7 +169,7 @@ for l, data in enumerate(panda_list):
             loc="upper right",
             bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.9),
             fancybox=False,
-            prop={"size": 5},
+            prop={"size": 4},
             frameon=True,
             ncol=2,
             markerscale=2,
