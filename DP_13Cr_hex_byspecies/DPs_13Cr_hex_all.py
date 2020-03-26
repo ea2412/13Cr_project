@@ -14,28 +14,28 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.path.pardir, os.path.pardir)))
 # from mass_list_py_13Cr import mass_list
-# mass_list = ["H-", "O-"]
-mass_list = [
-    "C_2H_3O_2-",
-    "C_3H_2-",
-    "C_3H_3O_2-",
-    "C_4H_3-",
-    # "CH_3-",
-    "CN-",
-    "C_2H-",
-    "C_2-",
-    "C_3H_3-",
-    "C_3OCs-",
-    "CHO_2-",
-    "Si_2C_2O-",
-]
+mass_list = ["O-", "CrO-"]
+# mass_list = [
+#     "C_2H_3O_2-",
+#     "C_3H_2-",
+#     "C_3H_3O_2-",
+#     "C_4H_3-",
+#     # "CH_3-",
+#     "CN-",
+#     "C_2H-",
+#     "C_2-",
+#     "C_3H_3-",
+#     "C_3OCs-",
+#     "CHO_2-",
+#     "Si_2C_2O-",
+# ]
 
 
 file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "300_scans_deeplayer"
+output_file_name = "effect_crater_size"
 
 
 class Files:
@@ -60,25 +60,27 @@ class FilesNames:
     untreated_200 = "200$^o$C untreated"
     treated_200_1 = "200$^o$C treated 1"
     treated_200_2 = "200$^o$C treated 2"
-    untreated_300 = "300$^o$C untreated"
+    untreated_300 = "300$^o$C untreated 300"
     treated_300_1 = "300$^o$C treated 1"
-    treated_300_2 = "300$^o$C treated 2"
-    treated_300_3 = "300$^o$C treated 3"
-    treated_300_4 = "300$^o$C treated 4"
-    treated_300_5 = "300$^o$C treated 5"
+    treated_300_2 = "300$^o$C treated 300 1"
+    treated_300_3 = "300$^o$C treated 300 2"
+    treated_300_4 = "300$^o$C treated 400"
+    treated_300_5 = "300$^o$C treated 500"
 
 
 DP_file_name = [
     Files.untreated_300,
     Files.treated_300_2,
-    Files.treated_300_3,
+    Files.treated_300_4,
+    Files.treated_300_5,
 ]
 
 
 sample_names = [
     FilesNames.untreated_300,
     FilesNames.treated_300_2,
-    FilesNames.treated_300_3,
+    FilesNames.treated_300_4,
+    FilesNames.treated_300_5,
 ]
 
 
@@ -101,7 +103,7 @@ rate_test = [
     SputterRates.T300,
 ]
 
-x_range = [0, 2500]
+x_range = [0, 600]
 y_range = [0, 1.1]
 
 
@@ -192,8 +194,8 @@ for slice_num in range(num_pdfs):
                 markerscale=2,
             )
 
-    ax.set_xlabel("Distance / nm")
-    ax.set_ylabel("Intensity / 10$^3$ counts")
+    ax.set_xlabel("Sputter time / s")
+    ax.set_ylabel("Normalised counts")
 
     fig.savefig(
         os.path.join(file_dir, output_file_name + "_" + str(slice_num) + ".pdf"), dpi=50

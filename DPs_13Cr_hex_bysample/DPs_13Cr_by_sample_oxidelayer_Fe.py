@@ -67,16 +67,22 @@ class FilesNames:
 
 
 DP_file_name = [
+    # Files.untreated_RT,
+    # Files.treated_RT_1,
+    # Files.untreated_200,
+    # Files.treated_200_1,
     Files.untreated_300,
     Files.treated_300_2,
-    Files.treated_300_3,
 ]
 
 
 sample_names = [
+    # FilesNames.untreated_RT,
+    # FilesNames.treated_RT_1,
+    # FilesNames.untreated_200,
+    # FilesNames.treated_200_1,
     FilesNames.untreated_300,
     FilesNames.treated_300_2,
-    FilesNames.treated_300_3,
 ]
 
 
@@ -101,7 +107,7 @@ rate_test = [
 ]
 
 
-x_range = [0, 300]
+x_range = [0, 200]
 y_range = [0, 1.1]
 
 number_of_plots = len(DP_file_name)
@@ -192,6 +198,6 @@ for l, data in enumerate(panda_list):
 
 
 ax.set_xlabel("Sputter time / s")
-axs[1].set_ylabel("Normalised counts")
+ax.set_ylabel("Normalised counts")
 
 fig.savefig(os.path.join(file_dir, output_file_name))
