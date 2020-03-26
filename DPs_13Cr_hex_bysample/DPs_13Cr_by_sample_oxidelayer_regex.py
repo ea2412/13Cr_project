@@ -18,7 +18,7 @@ from mass_list_py_13Cr import mass_list
 
 new_mass_list = []
 for ion in mass_list:
-    if re.match(r"(?=.*Fe(?![a-z]))(?=.*H(?![a-z]))(?=.*O(?![a-z]))", ion):
+    if re.match(r"(?=.*Fe(?![a-z]))(?=.*H(?![a-z]))", ion):
         new_mass_list.append(ion)
 
 # new_mass_list = [
@@ -74,7 +74,7 @@ file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "all_u_t_Fe+O+H.pdf"
+output_file_name = "all_u_t_Fe+O.pdf"
 
 
 class Files:
