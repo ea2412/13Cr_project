@@ -18,7 +18,7 @@ from mass_list_py_13Cr import mass_list
 
 new_mass_list = []
 for ion in mass_list:
-    if re.match(r"(?=.*Fe(?![a-z]))(?=.*H(?![a-z]))", ion):
+    if re.match(r"(?=.*Fe(?![a-z]))(?=.*O(?![a-z]))", ion):
         new_mass_list.append(ion)
 
 # new_mass_list = [
