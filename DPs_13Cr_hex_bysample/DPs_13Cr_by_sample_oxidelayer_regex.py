@@ -16,26 +16,26 @@ sys.path.append(os.path.abspath(os.path.join(__file__, os.path.pardir, os.path.p
 
 from mass_list_py_13Cr import mass_list
 
-new_mass_list = []
-for ion in mass_list:
-    if re.match(r"(?=.*Fe(?![a-z]))(?=.*O(?![a-z]))", ion):
-        new_mass_list.append(ion)
+# new_mass_list = []
+# for ion in mass_list:
+#     if re.match(r"(?=.*Fe(?![a-z]))(?=.*C(?![a-z]))", ion):
+#         new_mass_list.append(ion)
 
-# new_mass_list = [
-#     "Fe_2O_2H-",
-#     "Fe_3O_3H-",
-#     "Fe_4O_4H-",
-#     "Fe_3O_2H-",
-#     "Fe_2H_2O_3-",
-#     "Fe_2H_3O_2-",
-#     "Fe_2H_5O_2-",
-#     "Fe_2H_4O_2-",
-#     "C_2H_2OFe_2-",
-#     "C_2H_2O_2Fe_2-",
-#     "FeO_3H-",
-#     "FeH_2O_3-",
-#     "CrO-",
-# ]
+new_mass_list = [
+    "Fe_2O_2H-",
+    "Fe_3O_3H-",
+    "Fe_4O_4H-",
+    "Fe_3O_2H-",
+    "Fe_2H_2O_3-",
+    "Fe_2H_3O_2-",
+    "Fe_2H_5O_2-",
+    "Fe_2H_4O_2-",
+    "C_2H_2OFe_2-",
+    "C_2H_2O_2Fe_2-",
+    "FeO_3H-",
+    "FeH_2O_3-",
+    "CrO-",
+]
 
 # Fe_containing_species = [
 #     "Fe_3O_3H-",
@@ -74,7 +74,7 @@ file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "all_u_t_Fe+O.pdf"
+output_file_name = "all_u_t_FeO_selected.pdf"
 
 
 class Files:
