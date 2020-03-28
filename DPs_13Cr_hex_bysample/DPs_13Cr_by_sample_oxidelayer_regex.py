@@ -74,7 +74,7 @@ file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "RT_u_FeO_selected.pdf"
+output_file_name = "all_u_t_FeO_selected.pdf"
 
 
 class Files:
@@ -109,21 +109,21 @@ class FilesNames:
 
 DP_file_name = [
     Files.untreated_RT,
-    # Files.treated_RT_1,
-    # Files.untreated_200,
-    # Files.treated_200_2,
-    # Files.untreated_300,
-    # Files.treated_300_2,
+    Files.treated_RT_1,
+    Files.untreated_200,
+    Files.treated_200_2,
+    Files.untreated_300,
+    Files.treated_300_2,
 ]
 
 
 sample_names = [
     FilesNames.untreated_RT,
-    # FilesNames.treated_RT_1,
-    # FilesNames.untreated_200,
-    # FilesNames.treated_200_2,
-    # FilesNames.untreated_300,
-    # FilesNames.treated_300_2,
+    FilesNames.treated_RT_1,
+    FilesNames.untreated_200,
+    FilesNames.treated_200_2,
+    FilesNames.untreated_300,
+    FilesNames.treated_300_2,
 ]
 
 
@@ -148,7 +148,7 @@ rate_test = [
 ]
 
 
-x_range = [0, 30]
+x_range = [0, 100]
 y_range = [0, 1.1]
 
 number_of_plots = len(DP_file_name)
