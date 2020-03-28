@@ -33,7 +33,7 @@ file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "300_u_t_Fe_zoom.pdf"
+output_file_name = "all_Fe_oxide.pdf"
 
 
 class Files:
@@ -67,20 +67,20 @@ class FilesNames:
 
 
 DP_file_name = [
-    # Files.untreated_RT,
-    # Files.treated_RT_1,
-    # Files.untreated_200,
-    # Files.treated_200_1,
+    Files.untreated_RT,
+    Files.treated_RT_1,
+    Files.untreated_200,
+    Files.treated_200_1,
     Files.untreated_300,
     Files.treated_300_2,
 ]
 
 
 sample_names = [
-    # FilesNames.untreated_RT,
-    # FilesNames.treated_RT_1,
-    # FilesNames.untreated_200,
-    # FilesNames.treated_200_1,
+    FilesNames.untreated_RT,
+    FilesNames.treated_RT_1,
+    FilesNames.untreated_200,
+    FilesNames.treated_200_1,
     FilesNames.untreated_300,
     FilesNames.treated_300_2,
 ]
@@ -114,14 +114,18 @@ number_of_plots = len(DP_file_name)
 
 fig_width = 3.5
 mass_spectra_ar = 6 / 2
-padding = [[0.7, 0.3], [0.5, 0.3]]  # padding = [[left, right], [bottom, top]]
+padding = [[0.7, 0.3], [0.2, 0.7]]  # padding = [[left, right], [top, bottom]]
 horizontal_gap = 0.1
 vertical_gap = 0.1
 letter_padding = 0.03
 
 spectra_width = fig_width - sum(padding[0])
 spectra_height = spectra_width / mass_spectra_ar
-fig_height = number_of_plots * (spectra_height + sum(padding[1]))
+fig_height = (
+    number_of_plots * spectra_height
+    + (number_of_plots - 1) * vertical_gap
+    + (sum(padding[1]))
+)
 
 spectra_width_rel = spectra_width / fig_width
 spectra_height_rel = spectra_height / fig_height
@@ -142,7 +146,7 @@ axs = np.array(
                 - (
                     vertical_padding_rel[0]
                     + spectra_height_rel
-                    + i * (spectra_height_rel + vertical_padding_rel[0])
+                    + i * (spectra_height_rel + vertical_gap_rel)
                 ),
                 spectra_width_rel,
                 spectra_height_rel,
@@ -177,6 +181,8 @@ for l, data in enumerate(panda_list):
         ax.scatter(x_values, norm_y_values, s=2, label=label)
         ax.set_xlim(x_range[0], x_range[1])
         ax.set_ylim(y_range[0], y_range[1])
+        if l < (len(panda_list) - 1):
+            ax.set_xticklabels([])
         ax.legend(
             loc="upper right",
             bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.9),
@@ -197,7 +203,7 @@ for l, data in enumerate(panda_list):
     )
 
 
-ax.set_xlabel("Sputter time / s")
-ax.set_ylabel("Normalised counts")
+axs[number_of_plots - 1].set_xlabel("Sputter time / s")
+axs[math.ceil(number_of_plots / 2)].set_ylabel("Normalised counts")
 
 fig.savefig(os.path.join(file_dir, output_file_name))
