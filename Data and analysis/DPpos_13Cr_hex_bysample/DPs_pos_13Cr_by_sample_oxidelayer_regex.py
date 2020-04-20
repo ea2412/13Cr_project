@@ -13,27 +13,68 @@ import pandas as pd
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.path.pardir, os.path.pardir)))
-from test_list import mass_list
 
-mass_list = [
-    "Fe_3O-",
-    "Fe_2O-",
-    "Fe_3O_2-",
-    "FeO-",
-    "Fe_2O_2-",
-    "Fe_3O_3-",
-    "FeO_2-",
-    "FeO_3-",
+from mass_list_py_13Cr import mass_list
+
+# new_mass_list = []
+# for ion in mass_list:
+#     if re.match(r"(?=.*Fe(?![a-z]))(?=.*C(?![a-z]))", ion):
+#         new_mass_list.append(ion)
+
+new_mass_list = [
+    "Fe_2O_2H-",
+    "Fe_3O_3H-",
+    "Fe_4O_4H-",
+    "Fe_3O_2H-",
+    "Fe_2H_2O_3-",
+    "Fe_2H_3O_2-",
+    "Fe_2H_5O_2-",
+    "Fe_2H_4O_2-",
+    "C_2H_2OFe_2-",
+    "C_2H_2O_2Fe_2-",
+    "FeO_3H-",
+    "FeH_2O_3-",
     "CrO-",
-    "O-",
 ]
+
+# Fe_containing_species = [
+#     "Fe_3O_3H-",
+#     "Fe_4O_4H-",
+#     "Fe_3O_2H-",
+#     "FeO_3H-",
+#     "Fe_2OH-",
+#     "Fe_2O_2H-",
+#     "Fe_2H_3O_2-",
+#     "Fe_2H_5O_2-",
+#     "C_2H_2OFe_2-",
+#     "Fe_2H_2O_3-",
+#     "C_2H_2O_2Fe_2-",
+#     "CH_2OFe_3-",
+#     "C_3H_5O_6Fe_2-",
+#     "FeH_2O_3-",
+#     "Fe_2H_4O_2-",
+#     "FeSO_4H-",
+#     "Fe_2H_2O_3-.1",
+#     "FeSO_5H-",
+#     "CHNOFe-",
+#     "C_2H_2OFe_2-.1",
+#     "CrO-",
+# ]
+
+new_mass_list.append("CrO-")
+new_mass_list.append("O-")
+
+
+# (r"(?=.*Fe(?![a-z]))(?=.*H(?![a-z]))(?=.*O(?![a-z]))", ion)
+# (r"(?=.*S(?![a-z]))", ion)
+# (r"(?=.*Fe(?![a-z]))(?=.*C(?![a-z]))", ion)
 
 
 file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans"
 
-output_file_name = "all_Fe_oxide.pdf"
+output_file_name = "all_u_t_FeO_selected.pdf"
 
 
 class Files:
@@ -70,7 +111,7 @@ DP_file_name = [
     Files.untreated_RT,
     Files.treated_RT_1,
     Files.untreated_200,
-    Files.treated_200_1,
+    Files.treated_200_2,
     Files.untreated_300,
     Files.treated_300_2,
 ]
@@ -80,7 +121,7 @@ sample_names = [
     FilesNames.untreated_RT,
     FilesNames.treated_RT_1,
     FilesNames.untreated_200,
-    FilesNames.treated_200_1,
+    FilesNames.treated_200_2,
     FilesNames.untreated_300,
     FilesNames.treated_300_2,
 ]
@@ -107,25 +148,21 @@ rate_test = [
 ]
 
 
-x_range = [0, 200]
+x_range = [0, 100]
 y_range = [0, 1.1]
 
 number_of_plots = len(DP_file_name)
 
-fig_width = 3.5
-mass_spectra_ar = 6 / 2
-padding = [[0.7, 0.3], [0.2, 0.7]]  # padding = [[left, right], [top, bottom]]
+fig_width = 7
+mass_spectra_ar = 7 / 3
+padding = [[0.7, 0.3], [0.5, 0.3]]  # padding = [[left, right], [bottom, top]]
 horizontal_gap = 0.1
 vertical_gap = 0.1
 letter_padding = 0.03
 
 spectra_width = fig_width - sum(padding[0])
 spectra_height = spectra_width / mass_spectra_ar
-fig_height = (
-    number_of_plots * spectra_height
-    + (number_of_plots - 1) * vertical_gap
-    + (sum(padding[1]))
-)
+fig_height = number_of_plots * (spectra_height + sum(padding[1]))
 
 spectra_width_rel = spectra_width / fig_width
 spectra_height_rel = spectra_height / fig_height
@@ -144,9 +181,9 @@ axs = np.array(
                 horizontal_padding_rel[0],
                 1
                 - (
-                    vertical_padding_rel[0]
+                    vertical_padding_rel[0] / 2
                     + spectra_height_rel
-                    + i * (spectra_height_rel + vertical_gap_rel)
+                    + i * (spectra_height_rel + vertical_padding_rel[0])
                 ),
                 spectra_width_rel,
                 spectra_height_rel,
@@ -169,25 +206,27 @@ for file_name in DP_file_name:
     )
     panda_list.append(dataframe)
 
+cmap = plt.get_cmap("jet")
+colors = cmap(np.linspace(0, 1.0, len(new_mass_list)))
 
 for l, data in enumerate(panda_list):
     ax = axs[l]
-    for species in mass_list:
+    for m, species in enumerate(new_mass_list):
         x_values = data[data.columns[0]][3:].values
         y_values = data[species][3:].values
         max_y_value = y_values.max()
         norm_y_values = y_values / max_y_value
         label = re.sub(r"\-", r"$^{-}$", re.sub(r"(\^|_)(\d+)", r"$\1{\2}$", species))
-        ax.scatter(x_values, norm_y_values, s=2, label=label)
+        # ax.scatter(x_values, y_values, s=2, label=label)
+        # ax.scatter(x_values, norm_y_values, s=2, label=label, color=colors[m])
+        ax.plot(x_values, norm_y_values, label=label, color=colors[m])
         ax.set_xlim(x_range[0], x_range[1])
         ax.set_ylim(y_range[0], y_range[1])
-        if l < (len(panda_list) - 1):
-            ax.set_xticklabels([])
         ax.legend(
             loc="upper right",
             bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.9),
             fancybox=False,
-            prop={"size": 5},
+            prop={"size": 4},
             frameon=True,
             ncol=2,
             markerscale=2,
@@ -203,7 +242,7 @@ for l, data in enumerate(panda_list):
     )
 
 
-axs[number_of_plots - 1].set_xlabel("Sputter time / s")
-axs[math.ceil(number_of_plots / 2)].set_ylabel("Normalised counts")
+ax.set_xlabel("Sputter time / s")
+ax.set_ylabel("Counts")
 
 fig.savefig(os.path.join(file_dir, output_file_name))
