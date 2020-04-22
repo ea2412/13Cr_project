@@ -22,18 +22,18 @@ from mass_list_py_13Cr import mass_list
 #         new_mass_list.append(ion)
 
 new_mass_list = [
-    "Fe_2O_2H-",
-    "Fe_3O_3H-",
-    "Fe_4O_4H-",
-    "Fe_3O_2H-",
-    "Fe_2H_2O_3-",
-    "Fe_2H_3O_2-",
-    "Fe_2H_5O_2-",
-    "Fe_2H_4O_2-",
-    "C_2H_2OFe_2-",
-    "C_2H_2O_2Fe_2-",
-    "FeO_3H-",
-    "FeH_2O_3-",
+    # "Fe_2O_2H-",
+    # "Fe_3O_3H-",
+    # "Fe_4O_4H-",
+    # "Fe_3O_2H-",
+    # "Fe_2H_2O_3-",
+    # "Fe_2H_3O_2-",
+    # "Fe_2H_5O_2-",
+    # "Fe_2H_4O_2-",
+    # "C_2H_2OFe_2-",
+    # "C_2H_2O_2Fe_2-",
+    # "FeO_3H-",
+    # "FeH_2O_3-",
     "CrO-",
 ]
 
@@ -61,7 +61,7 @@ new_mass_list = [
 #     "CrO-",
 # ]
 
-new_mass_list.append("CrO-")
+# new_mass_list.append("CrO-")
 new_mass_list.append("O-")
 
 
@@ -72,9 +72,9 @@ new_mass_list.append("O-")
 
 file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
-DP_data_folder = "comparable_scans"
+DP_data_folder = "comparable_scans_neg"
 
-output_file_name = "all_u_t_FeO_selected.pdf"
+output_file_name = "CrO-_comparison.pdf"
 
 
 class Files:
@@ -148,7 +148,7 @@ rate_test = [
 ]
 
 
-x_range = [0, 100]
+x_range = [0, 200]
 y_range = [0, 1.1]
 
 number_of_plots = len(DP_file_name)
@@ -218,8 +218,8 @@ for l, data in enumerate(panda_list):
         norm_y_values = y_values / max_y_value
         label = re.sub(r"\-", r"$^{-}$", re.sub(r"(\^|_)(\d+)", r"$\1{\2}$", species))
         # ax.scatter(x_values, y_values, s=2, label=label)
-        # ax.scatter(x_values, norm_y_values, s=2, label=label, color=colors[m])
-        ax.plot(x_values, norm_y_values, label=label, color=colors[m])
+        ax.scatter(x_values, norm_y_values, s=2, label=label, color=colors[m])
+        # ax.plot(x_values, norm_y_values, label=label, color=colors[m])
         ax.set_xlim(x_range[0], x_range[1])
         ax.set_ylim(y_range[0], y_range[1])
         ax.legend(
