@@ -25,7 +25,7 @@ data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder_2015 = "depth_profiles_temp"
 DP_data_folder_2018 = "comparable_scans_neg"
 
-output_file_name = "thicknesses_O-_all_rate200forRTtreated.pdf"
+output_file_name = "temperatures_test.pdf"
 
 # used RT_1, 200_2, 300_2
 
@@ -97,6 +97,21 @@ sample_names_2018 = [
     FilesNames.untreated_300,
     FilesNames.treated_300,
 ]
+
+colours = [
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "yellow",
+    "blue",
+    "red",
+    "blue",
+    "red",
+    "blue",
+    "red",
+]
+
 
 temperature_2015 = [
     Temp.t_RT,
@@ -219,9 +234,12 @@ for l, data in enumerate(panda_list_2015):
         print(sputtertime)
         oxide_sputtertime_2015.append(sputtertime)
 
-thickness_2015 = [
-    time * rate for time, rate in zip(oxide_sputtertime_2015, sputter_rates)
-]
+rate_2015 = 0.1
+# thickness_2015 = [
+#     time * rate for time, rate in zip(oxide_sputtertime_2015, sputter_rates)
+# ]
+
+thickness_2015 = [time * rate_2015 for time in oxide_sputtertime_2015]
 
 
 for l, data in enumerate(panda_list_2018):
@@ -244,27 +262,17 @@ for l, data in enumerate(panda_list_2018):
 assumed_thicknesses = [thickness_2015[0]] + [thickness_2015[2]] + [thickness_2015[3]]
 print(assumed_thicknesses)
 
-rate_RT = assumed_thicknesses[0] / oxide_sputtertime_2018[0]
-rate_200 = assumed_thicknesses[1] / oxide_sputtertime_2018[2]
-rate_300 = assumed_thicknesses[2] / oxide_sputtertime_2018[4]
+rate_2018 = 0.1 * (350 ** 2 / 300 ** 2)
 
-sputter_rates_2018 = [rate_RT, rate_200, rate_200, rate_200, rate_300, rate_300]
-
-thickness_2018 = [
-    time * rate for time, rate in zip(oxide_sputtertime_2018, sputter_rates_2018)
-]
-
-colours = [
-    "red",
-    "blue",
-    "pink",
-    "black",
-    "purple",
-    "orange",
-]
+thickness_2018 = [time * rate_2018 for time in oxide_sputtertime_2018]
 
 temperatures = temperature_2015 + temperature_2018
 thicknesses = thickness_2015 + thickness_2018
+
+temp_K = [temp + 273 for temp in temperatures]
+log_temp = np.log(temp_K)
+log_thickness = np.log(thicknesses)
+
 sample_names = sample_names_2015 + sample_names_2018
 cmap = plt.get_cmap("jet")
 colors = cmap(np.linspace(0, 1.0, len(sample_names)))
@@ -272,8 +280,13 @@ colors = cmap(np.linspace(0, 1.0, len(sample_names)))
 
 for k in range(len(sample_names)):
     ax.scatter(
-        temperatures[k], thicknesses[k], color=colors[k], s=6, label=sample_names[k],
+        temperatures[k], thicknesses[k], color=colours[k], s=6, label=sample_names[k],
     )
+
+# for k in range(len(sample_names)):
+#     ax.scatter(
+#         temperatures[k], thicknesses[k], color=colours[k], s=6, label=sample_names[k],
+#     )
 ax.set_ylabel("Film thickness (nm)")
 
 ax.legend(
@@ -286,7 +299,7 @@ ax.legend(
     markerscale=2,
 )
 
-ax.set_xlabel("Temperature")
+ax.set_xlabel("Temperature (K)")
 
 
 fig.savefig(os.path.join(file_dir, output_file_name))
