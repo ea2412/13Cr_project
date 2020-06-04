@@ -147,7 +147,7 @@ sputter_rates = [
     SputterRates2015.T400,
 ]
 
-number_of_plots = 1
+number_of_plots = 3
 # number_of_plots = len(DP_file_name)
 
 fig_width = 7
@@ -221,17 +221,17 @@ temperatures = temperature_2015 + temperature_2018
 
 for k, data in enumerate(panda_list_2015):
     for m, species in enumerate(new_mass_list):
-        x_values = data[data.columns[0]][3:].values
-        y_values = data[species][3:].values
+        x_values = data[data.columns[0]].values
+        y_values = data[species].values
         max_y_value = y_values.max()
         norm_y_values = y_values / max_y_value
         # axs[0].plot(x_values, norm_y_values, label=sample_names[k])
-        axs[0].scatter(x_values, norm_y_values, s=6, label=sample_names[k])
-axs[0].hlines(0.5, 0, 1000)
-axs[0].set_xlim([150, 600])
+        axs[0].scatter(x_values, norm_y_values, s=6, label=sample_names_2015[k])
+# axs[0].hlines(0.5, 0, 1000)
+axs[0].set_xlim([0, 1000])
 axs[0].set_xlabel("Sputter time (s)")
 axs[0].set_ylabel("Normalised Counts")
-axs[0].title.set_text("Profiles of CrO-")
+# axs[0].title.set_text("Profiles of CrO-")
 axs[0].legend(
     loc="upper right",
     bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.9),
@@ -242,179 +242,99 @@ axs[0].legend(
     markerscale=2,
 )
 
+# ## Line profiles of CrO-
 
-# ### CrO- position
-# CrO_position = []
+change_crater_size = 350 ** 2 / 300 ** 2
 
-# for k, data in enumerate(panda_both):
-#     for m, species in enumerate(new_mass_list):
-#         x_values = data[data.columns[0]][3:].values
-#         y_values = data[species][3:].values
-#         max_y_value = y_values.max()
-#         norm_y_values = y_values / max_y_value
-#         index_ymax = np.where(y_values == max_y_value)[0][0]
-#         layer_position = x_values[index_ymax]
-#         # axs[0].plot(x_values, norm_y_values, label=sample_names[k])
-#         # axs[0].scatter(x_values, norm_y_values, s=6, label=sample_names[k])
-#         CrO_position.append(layer_position)
-# for k in range(len(sample_names)):
-#     axs[0].scatter(
-#         temperatures[k], CrO_position[k], color=colours[k], s=6, label=sample_names[k],
-#     )
-# axs[0].set_xlim([0, 400])
-# axs[0].set_xlabel("Temperature ($^o$C)")
-# axs[0].set_ylabel("Sputter time / s")
-# axs[0].title.set_text("Position of CrO- max")
-# axs[0].legend(
-#     loc="upper right",
-#     bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.9),
-#     fancybox=False,
-#     prop={"size": 4},
-#     frameon=True,
-#     ncol=1,
-#     markerscale=2,
-# )
-
-
-# ### CrO- width
-# CrO_position = []
-# CrO_lower_value = []
-# CrO_higher_value = []
-
-# for k, data in enumerate(panda_list_2015):
-#     for m, species in enumerate(new_mass_list):
-#         x_values = data[data.columns[0]][3:].values
-#         y_values = data[species][3:].values
-#         max_y_value = y_values.max()
-#         norm_y_values = y_values / max_y_value
-#         index_ymax = np.where(y_values == max_y_value)[0][0]
-#         norm_higher_y_values = y_values[:index_ymax] / max_y_value
-#         norm_lower_y_values = y_values[index_ymax:] / max_y_value
-#         finding_05 = norm_lower_y_values - 0.5
-#         ly2 = max(finding_05[finding_05 < 0])
-#         ly1 = min(finding_05[finding_05 > 0])
-#         index_ly2 = np.where(finding_05 == ly2)[0][0]
-#         index_ly1 = np.where(finding_05 == ly1)[0][0]
-#         lx1 = x_values[index_ly1]
-#         lx2 = x_values[index_ly2]
-#         sputtertime1 = ((lx2 - lx1) / (ly2 - ly1)) * (-ly1) + lx1
-#         print(sputtertime1)
-#         CrO_lower_value.append(sputtertime1)
-#         finding_05 = norm_higher_y_values - 0.5
-#         hy2 = max(finding_05[finding_05 < 0])
-#         hy1 = min(finding_05[finding_05 > 0])
-#         index_hy2 = np.where(finding_05 == hy2)[0][0]
-#         index_hy1 = np.where(finding_05 == hy1)[0][0]
-#         hx1 = x_values[index_hy1]
-#         hx2 = x_values[index_hy2]
-#         sputtertime2 = ((hx2 - hx1) / (hy2 - hy1)) * (-hy1) + hx1
-#         print(sputtertime2)
-#         CrO_higher_value.append(sputtertime2)
-# CrO_width = [st2 - st1 for st2, st1 in zip(CrO_higher_value, CrO_lower_value)]
-# print(CrO_width)
-# for k in range(len(sample_names)):
-#     axs[0].scatter(
-#         temperatures[k], CrO_width[k], color=colours[k], s=6, label=sample_names[k],
-#     )
-# axs[0].set_xlim([0, 410])
-# axs[0].set_xlabel("Temperature ($^o$C)")
-# axs[0].set_ylabel("Sputter time / s")
-# axs[0].title.set_text("Time to sputter through CrO layer")
-# axs[0].legend(
-#     loc="upper right",
-#     bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.5),
-#     fancybox=False,
-#     prop={"size": 4},
-#     frameon=True,
-#     ncol=1,
-#     markerscale=2,
-# )
+for k, data in enumerate(panda_list_2018):
+    for m, species in enumerate(new_mass_list):
+        x_values = data[data.columns[0]].values
+        y_values = data[species].values
+        max_y_value = y_values.max()
+        norm_y_values = y_values / max_y_value
+        # axs[0].plot(x_values, norm_y_values, label=sample_names[k])
+        axs[1].scatter(
+            x_values * change_crater_size,
+            norm_y_values,
+            s=6,
+            label=sample_names_2018[k],
+        )
+# axs[0].hlines(0.5, 0, 1000)
+axs[1].set_xlim([0, 300])
+axs[1].set_xlabel("Sputter time (s)")
+axs[1].set_ylabel("Normalised Counts")
+# axs[1].title.set_text("Profiles of CrO-")
+axs[1].legend(
+    loc="upper right",
+    bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.9),
+    fancybox=False,
+    prop={"size": 4},
+    frameon=True,
+    ncol=1,
+    markerscale=2,
+)
 
 
-# ax = axs[0]
-# oxide_sputtertime_2015 = []
-# oxide_sputtertime_2018 = []
+### CrO- width
+CrO_position = []
+CrO_lower_value = []
+CrO_higher_value = []
 
-# for l, data in enumerate(panda_list_2015):
-#     for m, species in enumerate(new_mass_list):
-#         x_values = data[data.columns[0]][3:].values
-#         y_values = data[species][3:].values
-#         max_y_value = y_values.max()
-#         norm_y_values = y_values / max_y_value
-#         finding_05 = norm_y_values - 0.5
-#         y2 = max(finding_05[finding_05 < 0])
-#         y1 = min(finding_05[finding_05 > 0])
-#         index_y2 = np.where(finding_05 == y2)[0][0]
-#         index_y1 = np.where(finding_05 == y1)[0][0]
-#         x1 = x_values[index_y1]
-#         x2 = x_values[index_y2]
-#         sputtertime = ((x2 - x1) / (y2 - y1)) * (-y1) + x1
-#         print(sputtertime)
-#         oxide_sputtertime_2015.append(sputtertime)
-
-# rate_2015 = 0.1
-# # thickness_2015 = [
-# #     time * rate for time, rate in zip(oxide_sputtertime_2015, sputter_rates)
-# # ]
-
-# thickness_2015 = [time * rate_2015 for time in oxide_sputtertime_2015]
-
-
-# for l, data in enumerate(panda_list_2018):
-#     for m, species in enumerate(new_mass_list):
-#         x_values = data[data.columns[0]][3:].values
-#         y_values = data[species][3:].values
-#         max_y_value = y_values.max()
-#         norm_y_values = y_values / max_y_value
-#         finding_05 = norm_y_values - 0.5
-#         y2 = max(finding_05[finding_05 < 0])
-#         y1 = min(finding_05[finding_05 > 0])
-#         index_y2 = np.where(finding_05 == y2)[0][0]
-#         index_y1 = np.where(finding_05 == y1)[0][0]
-#         x1 = x_values[index_y1]
-#         x2 = x_values[index_y2]
-#         sputtertime = ((x2 - x1) / (y2 - y1)) * (-y1) + x1
-#         print(sputtertime)
-#         oxide_sputtertime_2018.append(sputtertime)
-
-# assumed_thicknesses = [thickness_2015[0]] + [thickness_2015[2]] + [thickness_2015[3]]
-# print(assumed_thicknesses)
-
-# rate_2018 = 0.1 * (350 ** 2 / 300 ** 2)
-
-# thickness_2018 = [time * rate_2018 for time in oxide_sputtertime_2018]
-
-# temperatures = temperature_2015 + temperature_2018
-# thicknesses = thickness_2015 + thickness_2018
-
-# temp_K = [temp + 273 for temp in temperatures]
-
-# sample_names = sample_names_2015 + sample_names_2018
-# cmap = plt.get_cmap("jet")
-# colors = cmap(np.linspace(0, 1.0, len(sample_names)))
-
-# for k in range(len(sample_names)):
-#     ax.scatter(
-#         temperatures[k], thicknesses[k], color=colours[k], s=6, label=sample_names[k],
-#     )
-
-# # for k in range(len(sample_names)):
-# #     ax.scatter(
-# #         temperatures[k], thicknesses[k], color=colours[k], s=6, label=sample_names[k],
-# #     )
-# ax.set_ylabel("Film thickness (nm)")
-
-# ax.legend(
-#     loc="upper right",
-#     bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 0.5),
-#     fancybox=False,
-#     prop={"size": 4},
-#     frameon=True,
-#     ncol=1,
-#     markerscale=2,
-# )
-
-# ax.set_xlabel("Temperature (K)")
-
+for k, data in enumerate(panda_both):
+    for m, species in enumerate(new_mass_list):
+        x_values = data[data.columns[0]].values
+        y_values = data[species].values
+        max_y_value = y_values.max()
+        norm_y_values = y_values / max_y_value
+        index_ymax = np.where(y_values == max_y_value)[0][0]
+        xvalue_forymax = x_values[index_ymax]
+        CrO_position.append(xvalue_forymax)
+        data["norm"] = data[species] / max_y_value
+        lower_bound = data[:index_ymax]
+        higher_bound = data[index_ymax:]
+        lower_range = lower_bound[(lower_bound.norm > 0.3) & (lower_bound.norm < 0.7)]
+        lower_range["centred"] = lower_range["norm"] - 0.5
+        gradient_lower, yintercept_lower = np.polyfit(
+            lower_range.iloc[:, 0], lower_range.centred, 1
+        )
+        xintercept_lower = abs(-yintercept_lower / gradient_lower)
+        CrO_lower_value.append(xintercept_lower)
+        higher_range = higher_bound[
+            (higher_bound.norm > 0.3) & (higher_bound.norm < 0.7)
+        ]
+        higher_range["centred"] = higher_range["norm"] - 0.5
+        gradient_higher, yintercept_higher = np.polyfit(
+            higher_range.iloc[:, 0], higher_range.centred, 1
+        )
+        xintercept_higher = abs(-yintercept_higher / gradient_higher)
+        CrO_higher_value.append(xintercept_higher)
+CrO_width = [st2 - st1 for st2, st1 in zip(CrO_higher_value, CrO_lower_value)]
+lower_difference = [st2 - st1 for st2, st1 in zip(CrO_position, CrO_lower_value)]
+upper_difference = [st2 - st1 for st2, st1 in zip(CrO_higher_value, CrO_position)]
+print(CrO_position, CrO_width)
+for k in range(len(panda_both)):
+    axs[2].errorbar(
+        temperatures[k],
+        CrO_position[k],
+        yerr=[[lower_difference[k]], [upper_difference[k]]],
+        fmt=" ",
+    )
+    axs[2].scatter(
+        temperatures[k], CrO_position[k], label=sample_names[k], s=7,
+    )
+axs[2].set_xlim([0, 325])
+axs[2].set_ylim([0, 200])
+axs[2].set_xlabel("Temperature ($^o$C)")
+axs[2].set_ylabel("Sputter time / s")
+# axs[1].title.set_text("Time to sputter through CrO layer")
+axs[2].legend(
+    loc="upper right",
+    bbox_to_anchor=(0.3 / mass_spectra_ar, 0.9),
+    fancybox=False,
+    prop={"size": 4},
+    frameon=True,
+    ncol=1,
+    markerscale=2,
+)
 
 fig.savefig(os.path.join(file_dir, output_file_name))
