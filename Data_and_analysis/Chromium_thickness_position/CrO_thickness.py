@@ -25,7 +25,7 @@ data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder_2015 = "depth_profiles_temp"
 DP_data_folder_2018 = "comparable_scans_neg"
 
-output_file_name = "CrO_2015.pdf"
+output_file_name = "CrO_figure.pdf"
 
 # used RT_1, 200_2, 300_2
 
@@ -80,6 +80,11 @@ DP_file_name_2018 = [
     Files.treated_2018_300_2,
 ]
 
+DP_file_name_2018_u = [
+    Files.untreated_2018_RT,
+    Files.untreated_2018_200,
+    Files.untreated_2018_300,
+]
 
 sample_names_2015 = [
     FilesNames.untreated_RT,
@@ -96,6 +101,12 @@ sample_names_2018 = [
     FilesNames.treated_200,
     FilesNames.untreated_300,
     FilesNames.treated_300,
+]
+
+sample_names_2018_u = [
+    FilesNames.untreated_RT,
+    FilesNames.untreated_200,
+    FilesNames.untreated_300,
 ]
 
 colours = [
@@ -127,6 +138,12 @@ temperature_2018 = [
     Temp.t_200,
     Temp.t_200,
     Temp.t_300,
+    Temp.t_300,
+]
+
+temperature_2018_u = [
+    Temp.t_RT,
+    Temp.t_200,
     Temp.t_300,
 ]
 
@@ -194,6 +211,7 @@ axs = np.array(
 # Plot data
 panda_list_2015 = []
 panda_list_2018 = []
+panda_list_2018_u = []
 
 for file_name in DP_file_name_2015:
     dataframe = pd.read_csv(
@@ -213,9 +231,20 @@ for file_name in DP_file_name_2018:
     )
     panda_list_2018.append(dataframe)
 
+for file_name in DP_file_name_2018_u:
+    dataframe = pd.read_csv(
+        os.path.join(data_dir, DP_data_folder_2018, file_name),
+        header=1,
+        skiprows=[2, 3],
+        sep="\t",
+    )
+    panda_list_2018_u.append(dataframe)
+
 panda_both = panda_list_2015 + panda_list_2018
-sample_names = sample_names_2015 + sample_names_2018
+panda_both_u = panda_list_2015 + panda_list_2018_u
+sample_names = sample_names_2015 + sample_names_2018_u
 temperatures = temperature_2015 + temperature_2018
+temperatures_u = temperature_2015 + temperature_2018_u
 
 # ## Line profiles of CrO-
 
@@ -246,7 +275,7 @@ axs[0].legend(
 
 change_crater_size = 350 ** 2 / 300 ** 2
 
-for k, data in enumerate(panda_list_2018):
+for k, data in enumerate(panda_list_2018_u):
     for m, species in enumerate(new_mass_list):
         x_values = data[data.columns[0]].values
         y_values = data[species].values
@@ -257,7 +286,7 @@ for k, data in enumerate(panda_list_2018):
             x_values * change_crater_size,
             norm_y_values,
             s=6,
-            label=sample_names_2018[k],
+            label=sample_names_2018_u[k],
         )
 # axs[0].hlines(0.5, 0, 1000)
 axs[1].set_xlim([0, 300])
@@ -280,7 +309,7 @@ CrO_position = []
 CrO_lower_value = []
 CrO_higher_value = []
 
-for k, data in enumerate(panda_both):
+for k, data in enumerate(panda_both_u):
     for m, species in enumerate(new_mass_list):
         x_values = data[data.columns[0]].values
         y_values = data[species].values
@@ -312,15 +341,15 @@ CrO_width = [st2 - st1 for st2, st1 in zip(CrO_higher_value, CrO_lower_value)]
 lower_difference = [st2 - st1 for st2, st1 in zip(CrO_position, CrO_lower_value)]
 upper_difference = [st2 - st1 for st2, st1 in zip(CrO_higher_value, CrO_position)]
 print(CrO_position, CrO_width)
-for k in range(len(panda_both)):
+for k in range(len(panda_both_u)):
     axs[2].errorbar(
-        temperatures[k],
+        temperatures_u[k],
         CrO_position[k],
         yerr=[[lower_difference[k]], [upper_difference[k]]],
         fmt=" ",
     )
     axs[2].scatter(
-        temperatures[k], CrO_position[k], label=sample_names[k], s=7,
+        temperatures_u[k], CrO_position[k], label=sample_names[k], s=7,
     )
 axs[2].set_xlim([0, 325])
 axs[2].set_ylim([0, 200])
