@@ -1,8 +1,8 @@
 class ColorSet:
     annealed_untreated = "#184441"
-    annealed_treated = "#03b5aa"
+    CrO = "#03b5aa"
     oxidised_untreated = "#2E2045"
-    oxidised_treated = "#654597"
+    FeO = "#654597"
     polished_untreated = "#a64022"
     polished_treated = "#e4572e"
     silicon_untreated = "#393b40"
@@ -10,6 +10,7 @@ class ColorSet:
     iron = "#FF7E2F"
     oxygen = "#226f54"
     carbon = "#4d5577"
+    # shades of blue
     metal_carbide = "grey"
     carbon_carbon = "#000033"
     carbon_oxygen = "#003f66"
@@ -18,12 +19,11 @@ class ColorSet:
     carbonyl = "#177ec1"
     carboxylic = "#5ca5d3"
     metal_carbonate = "#a2cbe6"
+    # purple
     hexadecane = "#9e1643"
     heated_hex = "#d81e5b"
 
 
 class MarkerSet:
-    untreated = "o"
-    soak_0_5 = "x"
-    soak_24 = "^"
-    soak_72 = "s"
+    first_pressure = "o"
+    second_pressure = "x"
