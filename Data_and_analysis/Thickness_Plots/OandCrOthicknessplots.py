@@ -29,7 +29,7 @@ data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder_2015 = "depth_profiles_temp"
 DP_data_folder_2018 = "comparable_scans_neg"
 
-output_file_name = "test1.pdf"
+output_file_name = "test2.pdf"
 
 number_of_plots = 2
 
@@ -91,14 +91,14 @@ sputter_rates = [
 ]
 
 fig_width = 7
-mass_spectra_ar = 4 / 3
+plot_ar = 4 / 3
 padding = [[0.7, 0.3], [0.5, 0.3]]  # padding = [[left, right], [bottom, top]]
 horizontal_gap = 0.1
 vertical_gap = 0.5
 letter_padding = 0.03
 
 spectra_width = fig_width - sum(padding[0])
-spectra_height = spectra_width / mass_spectra_ar
+spectra_height = spectra_width / plot_ar
 fig_height = (
     sum(padding[1])
     + number_of_plots * (spectra_height)
@@ -237,7 +237,7 @@ ax.set_ylabel("Sputter time / s")
 # ax.title.set_text("Time to sputter through CrO layer")
 ax.legend(
     loc="upper right",
-    bbox_to_anchor=(0.25, 0.95),
+    bbox_to_anchor=(0.25, 0.75),
     fancybox=False,
     prop={"size": 10},
     frameon=False,
@@ -375,7 +375,7 @@ ax.set_ylabel("Sputter time / s")
 # ax.title.set_text("Time to sputter through CrO layer")
 ax.legend(
     loc="upper right",
-    bbox_to_anchor=(0.25, 0.95),
+    bbox_to_anchor=(0.25, 0.75),
     fancybox=False,
     prop={"size": 10},
     frameon=False,
@@ -383,5 +383,14 @@ ax.legend(
     markerscale=2,
 )
 
+for i, ax in enumerate(axs):
+    ax.text(
+        letter_padding,
+        1 - letter_padding * plot_ar,
+        string.ascii_lowercase[i],
+        transform=ax.transAxes,
+        ha="center",
+        va="center",
+    )
 
 fig.savefig(os.path.join(file_dir, output_file_name))
