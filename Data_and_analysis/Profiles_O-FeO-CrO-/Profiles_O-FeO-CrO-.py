@@ -29,7 +29,7 @@ data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder_2015 = "depth_profiles_temp"
 DP_data_folder_2018 = "comparable_scans_neg"
 
-output_file_name = "OFeOCrO_profiles.pdf"
+output_file_name = "OFeOCrO_profiles_labelled.pdf"
 
 number_of_plots = 1
 number_of_big_plots = 1
@@ -87,16 +87,16 @@ sputter_rates = [
 ]
 
 fig_width = 7
-mass_spectra_ar = 7 / 3
-mass_spectra_ar_1 = 1
+profile_ar = 7 / 3
+profile_ar_1 = 1
 padding = [[0.5, 0.3], [0.5, 0.3]]  # padding = [[left, right], [bottom, top]]
 horizontal_gap = 0.1
 vertical_gap = 0.5
 letter_padding = 0.03
 
 spectra_width = fig_width - sum(padding[0])
-spectra_height = spectra_width / mass_spectra_ar
-spectra_height_1 = spectra_width / mass_spectra_ar_1
+spectra_height = spectra_width / profile_ar
+spectra_height_1 = spectra_width / profile_ar_1
 fig_height = (
     sum(padding[1])
     + number_of_plots * (spectra_height)
@@ -193,6 +193,7 @@ for k, data in enumerate(panda_list_2015):
             color=colors_sequential[k],
         )
 ax.set_xlim([0, 60])
+ax.set_ylim([0, 1.2])
 # ax.set_xlim([0, 1000])
 # ax.set_xlabel("Sputter time (s)")
 ax.set_xlabel("Depth from surface (nm)")
@@ -200,7 +201,7 @@ ax.get_yaxis().set_ticks([])
 ax.set_ylabel("Normalised Counts")
 ax.legend(
     loc="upper right",
-    bbox_to_anchor=(1 - (0.05 / mass_spectra_ar), 1),
+    bbox_to_anchor=(1 - (0.05 / profile_ar), 1),
     fancybox=False,
     prop={"size": 10},
     frameon=False,
@@ -231,7 +232,7 @@ for k, data in enumerate(panda_list_2015):
         )
         # ax.set_xlim([0, 600])
         ax.set_xlim([0, 60])
-        ax.set_ylim([0, 5.5])
+        ax.set_ylim([0, 5.7])
         ax.legend(
             handles=[FeO_label, CrO_label],
             loc="upper right",
@@ -256,5 +257,26 @@ ax.text(53, 1.2, r"100$^\degree$C", fontsize=10)
 ax.text(53, 2.3, r"200$^\degree$C", fontsize=10)
 ax.text(53, 3.4, r"300$^\degree$C", fontsize=10)
 ax.text(53, 4.45, r"400$^\degree$C", fontsize=10)
+
+
+for i, ax in enumerate(axs):
+    ax.text(
+        letter_padding,
+        1 - letter_padding * profile_ar,
+        string.ascii_lowercase[i],
+        transform=ax.transAxes,
+        ha="center",
+        va="center",
+    )
+
+for j, ax in enumerate(axs_big):
+    ax.text(
+        letter_padding,
+        1 - letter_padding * profile_ar_1,
+        string.ascii_lowercase[len(axs) + j],
+        transform=ax.transAxes,
+        ha="center",
+        va="center",
+    )
 
 fig.savefig(os.path.join(file_dir, output_file_name))
