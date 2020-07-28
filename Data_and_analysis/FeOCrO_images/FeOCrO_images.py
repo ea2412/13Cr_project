@@ -16,7 +16,7 @@ from Colors import ColorSet
 file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 
-output_file_name = "slices_test.pdf"
+output_file_name = "slices_test2.pdf"
 
 slices_data_folder = "slices"
 images_data_folder = "images_at_depth"
@@ -56,10 +56,16 @@ CrO_images_file_name = [
 
 
 scale_bar_file_name = "slice example scale bar.bmp"
-cube_pos1_file_name = "cubepos1.png"
-cube_pos2_file_name = "cubepos2.png"
-xz_schematic_file_name = "axisxz.png"
-xy_schematic_file_name = "axisxy.png"
+
+axis_schematic_list = [
+    "xy_axis_white_test.png",
+    "axisxz.png",
+    "axisxy.png",
+    "axisxy.png",
+]
+
+cube_list = ["cubepos1 copy.png", "cubepos2.png"]
+
 xyz_schematic_file_name = "axisxyz.png"
 
 slices_list = [*Fe_slices_file_name, *Cr_slices_file_name]
@@ -120,7 +126,6 @@ axs = np.array(
                     - (
                         vertical_padding_rel[1]
                         + image_height_rel
-                        # + vertical_gap_rel
                         + j * (image_height_rel + vertical_gap_rel)
                     ),
                     image_width_rel,
@@ -211,24 +216,26 @@ scale_bar = plt.imread(os.path.join(data_dir, slices_data_folder, scale_bar_file
 scale_ax.imshow(scale_bar, vmin=0, vmax=1)
 scale_ax.axis("off")
 
-axis_schematic_list = [
-    xz_schematic_file_name,
-    xz_schematic_file_name,
-    xy_schematic_file_name,
-    xy_schematic_file_name,
-]
 
-cubepos1 = mpimg.imread(os.path.join(data_dir, axis_data_folder, cube_pos1_file_name))
-cube_axs[0].imshow(cubepos1, vmin=0, vmax=1)
-cube_axs[0].axis("off")
+# cubepos1 = plt.imread(os.path.join(data_dir, axis_data_folder, cube_pos1_file_name))
+# cube_axs[0].imshow(cubepos1, vmin=0, vmax=1)
+# cube_axs[0].axis("off")
 
-# for l in range(len(axis_schematic_list)):
-#     ax = axis_images_axs[l]
-#     axis_schematic = plt.imread(
-#         os.path.join(data_dir, axis_data_folder, axis_schematic_list[l])
-#     )
-#     ax.imshow(axis_schematic, vmin=0, vmax=1)
-#     # ax.axis("off")
+for l in range(len(axis_schematic_list)):
+    ax = axis_images_axs[l]
+    # axis_schematic = plt.imread(
+    #     os.path.join(data_dir, axis_data_folder, axis_schematic_list[l])
+    # )
+    # ax.imshow(axis_schematic, vmin=0, vmax=1, cmap="Greys_r")
+    ax.axis("off")
+
+for m in range(2):
+    ax = cube_axs[m]
+    # axis_schematic = mpimg.imread(
+    #     os.path.join(data_dir, axis_data_folder, cube_list[m])
+    # )
+    # ax.imshow(axis_schematic, vmin=0, vmax=1, cmap="Greys_r")
+    ax.axis("off")
 
 combined_list = [slices_FeO, slices_CrO, images_FeO, images_CrO]
 
@@ -299,12 +306,10 @@ for i, text in enumerate(column_labels):
 
 FeO_label = mpatches.Patch(color="blue", label="FeO$^-$")
 CrO_label = mpatches.Patch(color="orange", label="CrO$^-$")
-
-
 scale_ax.legend(
     handles=[FeO_label, CrO_label],
     loc="upper right",
-    bbox_to_anchor=(3, -0.15),
+    bbox_to_anchor=(4, -0.3),
     fancybox=False,
     prop={"size": 8},
     frameon=False,
@@ -313,3 +318,4 @@ scale_ax.legend(
 )
 
 fig.savefig(os.path.join(file_dir, output_file_name))
+
