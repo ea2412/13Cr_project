@@ -27,3 +27,9 @@ class ColorSet:
 class MarkerSet:
     first_pressure = "o"
     second_pressure = "x"
+
+
+class Settings:
+    axis_fontsize = 6
+    legend_fontsize = 4
+    marker_size = 3

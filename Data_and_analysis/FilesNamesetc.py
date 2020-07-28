@@ -14,19 +14,19 @@ class Files:
 
 class FilesNames:
     untreated_RT_T = "RT"
-    untreated_RT = "RT untreated"
+    untreated_RT = "RT"
     treated_RT = "RT treated"
-    untreated_100_T = "100$/degree$C"
-    untreated_100 = "100$/degree$C untreated"
-    untreated_200_T = "200$/degree$C"
-    untreated_200 = "200$/degree$C untreated"
-    treated_200 = "200$/degree$C treated"
-    untreated_300_T = "300$/degree$C"
-    untreated_300 = "300$/degree$C untreated"
-    treated_300 = "300$/degree$C treated"
-    untreated_400_T = "400$/degree$C"
-    untreated_400 = "400$/degree$C untreated"
-    treated_400 = "400$/degree$C treated"
+    untreated_100_T = "100$\degree$C"
+    untreated_100 = "100$\degree$C"
+    untreated_200_T = "200$\degree$C"
+    untreated_200 = "200$\degree$C"
+    treated_200 = "200$\degree$C treated"
+    untreated_300_T = "300$\degree$C"
+    untreated_300 = "300$\degree$C"
+    treated_300 = "300$\degree$C treated"
+    untreated_400_T = "400$\degree$C"
+    untreated_400 = "400$\degree$C"
+    treated_400 = "400$\degree$C treated"
 
 
 class Temp:
