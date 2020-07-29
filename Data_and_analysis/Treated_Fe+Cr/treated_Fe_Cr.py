@@ -9,7 +9,11 @@ from matplotlib import pyplot as plt
 import matplotlib.font_manager as fm
 import numpy as np
 import pandas as pd
+
 from matplotlib.ticker import FormatStrFormatter
+
+# from palettable.cartocolors.sequential import YlOrRd_6
+# from palettable.cartocolors.sequential import Blues_6
 
 import sys
 
@@ -27,7 +31,6 @@ mass_list_Fe = [
     # "Fe_3O_3-",
     "FeO_2-",
     "FeO_3-",
-    "O-",
 ]
 
 
@@ -39,7 +42,6 @@ mass_list_Cr = [
     "Cr_4O_6-",
     "CrO-",
     "Cr_2O-",
-    "O-",
     # "CCr-",
     #     "COCr-",
     #     # "CsCr-",
@@ -56,7 +58,7 @@ file_dir = os.path.dirname(__file__)
 data_dir = os.path.join(os.path.dirname(file_dir), "data")
 DP_data_folder = "comparable_scans_neg"
 
-output_file_name = "profiles_normalised_plot.pdf"
+output_file_name = "profiles_normalised_plot_test.pdf"
 
 DP_file_name = [
     Files.untreated_2018_RT,
@@ -66,7 +68,6 @@ DP_file_name = [
     Files.untreated_2018_300,
     Files.treated_2018_300_2,
 ]
-
 
 sample_names = [
     FilesNames.untreated_RT_T,
@@ -146,8 +147,22 @@ for file_name in DP_file_name:
     panda_list.append(dataframe)
 
 mass_lists = [mass_list_Fe, mass_list_Cr]
-# cmap = [plt.get_cmap("winter"), plt.get_cmap("spring")]
-cmap = [plt.get_cmap("jet"), plt.get_cmap("jet")]
+cmap = [
+    plt.get_cmap("winter_r"),
+    plt.get_cmap("autumn_r"),
+]
+
+# cmap = [
+#     plt.get_cmap("Blues_r"),
+#     plt.get_cmap("YlOrRd_r"),
+# ]
+
+# cmap = [
+#     plt.get_cmap("winter_r"),
+#     plt.get_cmap("autumn_r"),
+# ]
+
+# other cmap options: jet,Blues_r, YlOrRd_r
 
 for m in range(number_of_columns):
     for l, data in enumerate(panda_list):
@@ -157,13 +172,21 @@ for m in range(number_of_columns):
         for n, species in enumerate(mass_list):
             x_values = data[data.columns[0]][3:].values
             y_values = data[species][3:].values
+            y_values_O = data["O-"][3:].values
             max_y_value = y_values.max()
+            max_y_value_O = y_values_O.max()
             norm_y_values = y_values / max_y_value
+            norm_y_values_O = y_values_O / max_y_value_O
             label = re.sub(
                 r"\-", r"$^{-}$", re.sub(r"(\^|_)(\d+)", r"$\1{\2}$", species)
             )
+            label_O = re.sub(
+                r"\-", r"$^{-}$", re.sub(r"(\^|_)(\d+)", r"$\1{\2}$", "O-")
+            )
             # ax.scatter(x_values, norm_y_values, s=1, label=label, color=colors[n])
-            ax.plot(x_values, norm_y_values, label=label, color=colors[n], linewidth=1)
+            ax.plot(
+                x_values, norm_y_values, label=label, color=colors[n], linewidth=1,
+            )
             # ax.plot(x_values, y_values, label=label, color=colors[n], linewidth=1)
             ax.set_xlim(x_range[0], x_range[1])
             ax.set_ylim(y_range[0], y_range[1])
@@ -176,6 +199,9 @@ for m in range(number_of_columns):
                     np.arange(x_range[0], x_range[1], 50),
                     fontsize=Settings.axis_fontsize,
                 )
+        ax.plot(
+            x_values, norm_y_values_O, label=label_O, color="black", linewidth=1,
+        )
 
 
 axs[0, 0].legend(
