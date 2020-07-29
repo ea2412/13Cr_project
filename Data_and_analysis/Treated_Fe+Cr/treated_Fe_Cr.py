@@ -12,9 +12,6 @@ import pandas as pd
 
 from matplotlib.ticker import FormatStrFormatter
 
-# from palettable.cartocolors.sequential import YlOrRd_6
-# from palettable.cartocolors.sequential import Blues_6
-
 import sys
 
 sys.path.append(os.path.abspath(os.path.join(__file__, os.path.pardir, os.path.pardir)))
